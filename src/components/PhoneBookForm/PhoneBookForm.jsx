@@ -3,6 +3,9 @@ import { PhoneForm, Input } from './PhoneBookForm.styled';
 import { Label } from 'components/Label/Label.styled';
 import { FirstButton } from 'components/buttons/FirstButton.styled';
 import * as yup from 'yup';
+import { nanoid } from 'nanoid';
+import { add } from 'redux/itemsSlice';
+import { useDispatch } from 'react-redux/es/exports';
 
 const schema = yup.object().shape({
   name: yup.string().min(3).required(),
@@ -15,9 +18,10 @@ const initialValues = {
 };
 
 export const PhoneBookForm = ({ onSubmit }) => {
+  const dispatch = useDispatch();
   const handleSubmit = (values, { resetForm }) => {
     const { name, number } = values;
-    onSubmit({ name, number });
+    dispatch(add({ id: nanoid(), name, number }));
     resetForm();
   };
   return (
