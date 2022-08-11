@@ -1,34 +1,11 @@
 import { PhoneBookForm } from 'components/PhoneBookForm/PhoneBookForm';
-import { Section } from 'components/Section/Section.styled';
-import { Box } from 'components/Box/Box.styled';
-import { Title } from 'components/Title/Title.styled';
+import { Section } from 'components/common/Section/Section.styled';
+import { Box } from 'components/common/Box/Box.styled';
+import { Title } from 'components/common/Title/Title.styled';
 import { PhonesList } from 'components/PhonesList/PhonesList';
 import { Filter } from 'components/Filter/Filter';
-import { useSelector, useDispatch } from 'react-redux/es/exports';
-import { remove } from 'redux/itemsSlice';
-import { addFilter } from 'redux/filterSlice';
 
 export default function App() {
-  const items = useSelector(state => state.items);
-  const filter = useSelector(state => state.filter);
-  const dispatch = useDispatch();
-
-  const changeFilter = e => {
-    const filter = e.currentTarget.value;
-    dispatch(addFilter(filter));
-  };
-
-  const getVisibleContacts = () => {
-    const normalizeFilter = filter.toLocaleLowerCase();
-
-    return items.items.filter(contact =>
-      contact.name.toLocaleLowerCase().includes(normalizeFilter)
-    );
-  };
-  const deleteContact = id => {
-    dispatch(remove(id));
-  };
-
   return (
     <Section>
       <Title>Phonebook</Title>
@@ -37,11 +14,8 @@ export default function App() {
       </Box>
       <Title>Contacts</Title>
       <Box>
-        <Filter value={filter} onChange={changeFilter} />
-        <PhonesList
-          options={getVisibleContacts()}
-          deleteContact={deleteContact}
-        />
+        <Filter />
+        <PhonesList />
       </Box>
     </Section>
   );

@@ -1,10 +1,10 @@
 import { Formik, ErrorMessage } from 'formik';
 import { PhoneForm, Input } from './PhoneBookForm.styled';
-import { Label } from 'components/Label/Label.styled';
-import { FirstButton } from 'components/buttons/FirstButton.styled';
+import { Label } from 'components/common/Label/Label.styled';
+import { FirstButton } from 'components/common/buttons/FirstButton.styled';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
-import { add } from 'redux/itemsSlice';
+import { add } from 'redux/contactsSlice';
 import { useDispatch } from 'react-redux/es/exports';
 
 const schema = yup.object().shape({
