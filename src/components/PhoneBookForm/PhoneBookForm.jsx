@@ -17,7 +17,7 @@ const initialValues = {
   number: '',
 };
 
-export const PhoneBookForm = ({ onSubmit }) => {
+export const PhoneBookForm = () => {
   const dispatch = useDispatch();
   const handleSubmit = (values, { resetForm }) => {
     const { name, number } = values;
