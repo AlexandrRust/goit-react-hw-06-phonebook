@@ -10,7 +10,6 @@ export const PhonesList = () => {
   const dispatch = useDispatch();
   const getVisibleContacts = () => {
     const normalizeFilter = filter.toLocaleLowerCase();
-
     return contacts.filter(contact =>
       contact.name.toLocaleLowerCase().includes(normalizeFilter)
     );

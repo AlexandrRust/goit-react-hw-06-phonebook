@@ -5,41 +5,45 @@ import { FirstButton } from 'components/common/buttons/FirstButton.styled';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
 import { add } from 'redux/contactsSlice';
-import { useDispatch } from 'react-redux/es/exports';
+import { useSelector, useDispatch } from 'react-redux/es/exports';
+
+const nameValid = "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$";
 
 const schema = yup.object().shape({
-  name: yup.string().min(3).required(),
+  name: yup
+    .string()
+    .matches(
+      nameValid,
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    )
+    .min(3)
+    .required(),
   number: yup.string().min(13).required(),
 });
 
-const initialValues = {
-  name: '',
-  number: '',
-};
-
 export const PhoneBookForm = () => {
+  const contacts = useSelector(state => state.contacts.items);
   const dispatch = useDispatch();
+
   const handleSubmit = (values, { resetForm }) => {
     const { name, number } = values;
-    dispatch(add({ id: nanoid(), name, number }));
-    resetForm();
+    if (contacts.find(elem => elem.name.toLowerCase() === name.toLowerCase())) {
+      alert(`${name} is already in contacts.`);
+    } else {
+      dispatch(add({ id: nanoid(), name, number }));
+      resetForm();
+    }
   };
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ name: '', number: '' }}
       validationSchema={schema}
       onSubmit={handleSubmit}
     >
       <PhoneForm autoComplete="off">
         <Label htmlFor="name">
           Name
-          <Input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
+          <Input type="text" name="name" />
           <ErrorMessage name="name" />
         </Label>
         <Label htmlFor="name">
